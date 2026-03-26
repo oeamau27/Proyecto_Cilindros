@@ -383,26 +383,14 @@ footer h3{
 </footer>
 
 <div id="panelLogin" class="panel-login">
-
     <div class="contenido-login">
-
         <span class="cerrar" onclick="cerrarLogin()">×</span>
-
         <h2>Ingreso al Sistema</h2>
-
-        <select>
-            <option>Seleccione tipo</option>
-            <option>Personal</option>
-            <option>Usuario</option>
-        </select>
-
-        <input type="text" placeholder="Usuario">
-        <input type="password" placeholder="Contraseña">
-
-        <button class="btn">Ingresar</button>
-
+        <input type="text" id="loginUsuario" placeholder="Usuario">
+        <input type="password" id="loginPassword" placeholder="Contraseña">
+        <button class="btn" onclick="validarLogin()">Ingresar</button>
+        <div id="loginMensaje" style="color: #ff6b6b; margin-top: 10px; font-size: 0.9rem;"></div>
     </div>
-
 </div>
 
 <script>
@@ -412,17 +400,117 @@ function irInicio(){
         behavior: 'smooth'
     });
 }
-</script>
 
-<script>
 function abrirLogin(){
     document.getElementById("panelLogin").classList.add("activo");
+    document.getElementById("loginMensaje").innerHTML = "";
+    document.getElementById("loginUsuario").value = "";
+    document.getElementById("loginPassword").value = "";
 }
 
 function cerrarLogin(){
     document.getElementById("panelLogin").classList.remove("activo");
 }
-</script>
 
-</body>
-</html>
+// Función para cargar los datos del personal desde localStorage
+function cargarPersonalData() {
+    // Datos por defecto con usuarios y contraseñas para cada empleado
+    const datosPorDefecto = [
+        { id: 1, nombre: "Juan Pérez", carnet: "1234567", email: "juan.perez@autogas.com", telefono: "76543210", rol: "tecnico", fechaContratacion: "2024-01-15", activo: true, usuario: "juan", password: "1234" },
+        { id: 2, nombre: "María López", carnet: "7654321", email: "maria.lopez@autogas.com", telefono: "71234567", rol: "administrativo", fechaContratacion: "2024-02-01", activo: true, usuario: "maria", password: "1234" },
+        { id: 3, nombre: "Carlos Ruiz", carnet: "9876543", email: "carlos.ruiz@autogas.com", telefono: "79876543", rol: "tecnico", fechaContratacion: "2024-01-20", activo: true, usuario: "carlos", password: "1234" },
+        { id: 4, nombre: "Ana Torres", carnet: "4567890", email: "ana.torres@autogas.com", telefono: "73456789", rol: "tecnico", fechaContratacion: "2024-02-10", activo: true, usuario: "ana", password: "1234" },
+        { id: 5, nombre: "Luis Mendoza", carnet: "3216549", email: "luis.mendoza@autogas.com", telefono: "77665544", rol: "administrativo", fechaContratacion: "2024-02-15", activo: true, usuario: "luis", password: "1234" },
+        { id: 6, nombre: "Roberto Jiménez", carnet: "1112223", email: "roberto.jimenez@autogas.com", telefono: "70123456", rol: "tecnico", fechaContratacion: "2024-02-20", activo: true, usuario: "roberto", password: "1234" },
+        { id: 7, nombre: "Laura Vargas", carnet: "9988776", email: "laura.vargas@autogas.com", telefono: "74567890", rol: "tecnico", fechaContratacion: "2024-03-01", activo: true, usuario: "laura", password: "1234" }
+    ];
+    
+    const storedPersonal = localStorage.getItem('personalGNV');
+    
+    if (storedPersonal) {
+        let personalExistente = JSON.parse(storedPersonal);
+        
+        // Verificar si los datos existentes tienen los campos usuario/password
+        const necesitaActualizar = personalExistente.some(p => !p.usuario || !p.password);
+        
+        if (necesitaActualizar) {
+            // Actualizar los datos existentes con los campos que faltan
+            const personalActualizado = personalExistente.map(p => {
+                const datosPorDefectoEmpleado = datosPorDefecto.find(d => d.id === p.id);
+                return {
+                    ...p,
+                    usuario: p.usuario || (datosPorDefectoEmpleado ? datosPorDefectoEmpleado.usuario : p.nombre.toLowerCase().replace(' ', '.')),
+                    password: p.password || "1234"
+                };
+            });
+            localStorage.setItem('personalGNV', JSON.stringify(personalActualizado));
+            return personalActualizado;
+        }
+        
+        return personalExistente;
+    }
+    
+    // Si no hay datos, guardar los datos por defecto
+    localStorage.setItem('personalGNV', JSON.stringify(datosPorDefecto));
+    return datosPorDefecto;
+}
+
+function validarLogin() {
+    const usuario = document.getElementById("loginUsuario").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+    const mensajeDiv = document.getElementById("loginMensaje");
+
+    // ==================== JEFE ====================
+    if (usuario === "admi" && password === "1234") {
+        mensajeDiv.style.color = "#16a34a";
+        mensajeDiv.innerHTML = "✅ Acceso concedido como JEFE. Redirigiendo...";
+        
+        sessionStorage.setItem('usuarioLogueado', JSON.stringify({ 
+            usuario: "admi", 
+            nombre: "Administrador",
+            esJefe: true 
+        }));
+        
+        cerrarLogin();
+        setTimeout(() => {
+            window.location.href = "gestion-personal.html";
+        }, 1000);
+        return;
+    }
+
+    // ==================== USUARIO NORMAL ====================
+    const personalData = cargarPersonalData();
+    
+    // Debug: Mostrar en consola los usuarios disponibles
+    console.log("Usuarios disponibles:", personalData.map(p => ({ usuario: p.usuario, nombre: p.nombre, password: p.password })));
+    
+    const empleado = personalData.find(p => 
+        p.usuario && p.usuario.toLowerCase() === usuario.toLowerCase() && 
+        p.password === password && 
+        p.activo !== false
+    );
+    
+    if (empleado) {
+        mensajeDiv.style.color = "#16a34a";
+        mensajeDiv.innerHTML = `✅ Bienvenido ${empleado.nombre}. Redirigiendo...`;
+        
+        sessionStorage.setItem('usuarioLogueado', JSON.stringify({ 
+            id: empleado.id,
+            nombre: empleado.nombre,
+            usuario: empleado.usuario,
+            rol: empleado.rol,
+            esJefe: false 
+        }));
+        
+        cerrarLogin();
+        setTimeout(() => {
+            window.location.href = "control-personal.html";
+        }, 1000);
+        return;
+    }
+
+    // ==================== ERROR ====================
+    mensajeDiv.style.color = "#ff6b6b";
+    mensajeDiv.innerHTML = "❌ Usuario o contraseña incorrectos";
+}
+</script>
