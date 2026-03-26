@@ -535,25 +535,6 @@
         let usuarioLogueado = null;
         let esJefe = false;
 
-        // ==================== MANEJO DE SESIÓN ====================
-        function cargarSesion() {
-            const sesion = sessionStorage.getItem('usuarioLogueado');
-            if (!sesion) {
-                mostrarAlerta('No hay sesión activa. Redirigiendo al inicio...', 'error');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 2000);
-                return false;
-            }
-            
-            usuarioLogueado = JSON.parse(sesion);
-            esJefe = (usuarioLogueado.usuario === 'admi');
-            
-            document.getElementById('nombreUsuario').textContent = esJefe ? 'JEFE - Administrador' : usuarioLogueado.nombre || 'Usuario';
-            
-            return true;
-        }
-
         function cerrarSesion() {
             sessionStorage.removeItem('usuarioLogueado');
             mostrarAlerta('Sesión cerrada correctamente', 'success');
