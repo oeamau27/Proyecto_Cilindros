@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abastecimiento</title>
+  <link rel="stylesheet" href="../css/abastecimiento.css" />
+</head>
+<body>
+
+  <!-- ════════════════════ MAIN ════════════════════ -->
+  <main class="main-content">
+
+    <!-- Header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Abastecimiento</h1>
+        <p>Control de stock y gestión de pedidos</p>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-outline">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Exportar
+        </button>
+        <button class="btn btn-primary" onclick="document.getElementById('modalNuevoPedido').classList.add('open')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nuevo Pedido
+        </button>
+      </div>
+    </div>
+
+    <!-- Alerta de Stock Mínimo -->
+    <div class="alert-banner">
+      <div class="alert-banner-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <strong>¡Alertas de Stock Mínimo!</strong>
+      </div>
+      <p class="alert-sub">2 materiales están por debajo del stock mínimo</p>
+      <div class="alert-items">
+        <div class="alert-item">
+          <div class="alert-item-info">
+            <strong>Químico Limpiador XYZ</strong>
+            <small>Stock actual: 8 L &nbsp;•&nbsp; Mínimo: 12 L</small>
+          </div>
+          <button class="btn btn-danger btn-sm">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Pedir
+          </button>
+        </div>
+        <div class="alert-item">
+          <div class="alert-item-info">
+            <strong>Pintura Anticorrosiva</strong>
+            <small>Stock actual: 5 L &nbsp;•&nbsp; Mínimo: 10 L</small>
+          </div>
+          <button class="btn btn-danger btn-sm">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Pedir
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card blue">
+        <div class="stat-info">
+          <label>Total Materiales</label>
+          <div class="stat-value">3</div>
+        </div>
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-info">
+          <label>Bajo Stock</label>
+          <div class="stat-value">2</div>
+        </div>
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="stat-card cart">
+        <div class="stat-info">
+          <label>Pedidos Activos</label>
+          <div class="stat-value">1</div>
+        </div>
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        </div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-info">
+          <label>Stock Óptimo</label>
+          <div class="stat-value">1</div>
+        </div>
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panels -->
+    <div class="panels-grid">
+
+      <!-- ── Control de Stock ── -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Control de Stock</h2>
+          <select class="filter-select">
+            <option value="">Todas las categorías</option>
+            <option>Químicos</option>
+            <option>Repuestos</option>
+          </select>
+        </div>
+        <div class="panel-body">
+
+          <div class="filter-bar">
+            <input class="search-input" type="text" placeholder="Buscar material..." />
+            <select class="filter-select">
+              <option>Todos</option>
+              <option>Bajo stock</option>
+              <option>Stock óptimo</option>
+            </select>
+          </div>
+
+          <!-- Card: Químico Limpiador XYZ -->
+          <div class="stock-card">
+            <div class="stock-card-header">
+              <div>
+                <div class="stock-card-name">Químico Limpiador XYZ</div>
+                <div class="stock-card-category">Químicos</div>
+              </div>
+              <div class="stock-card-alert">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              </div>
+            </div>
+            <div class="stock-levels">
+              <div class="stock-level-item">
+                <label>Actual</label>
+                <div class="level-value">8 L</div>
+              </div>
+              <div class="stock-level-item">
+                <label>Mínimo</label>
+                <div class="level-value">12 L</div>
+              </div>
+              <div class="stock-level-item">
+                <label>Máximo</label>
+                <div class="level-value">50 L</div>
+              </div>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill low" style="width:16%"></div>
+            </div>
+            <div class="stock-card-footer">
+              <span class="stock-provider">Proveedor: QuimiPro SAC</span>
+              <button class="btn btn-outline btn-sm pedir-btn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                Pedir
+              </button>
+            </div>
+          </div>
+
+          <!-- Card: Pintura Anticorrosiva -->
+          <div class="stock-card">
+            <div class="stock-card-header">
+              <div>
+                <div class="stock-card-name">Pintura Anticorrosiva</div>
+                <div class="stock-card-category">Químicos</div>
+              </div>
+              <div class="stock-card-alert">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              </div>
+            </div>
+            <div class="stock-levels">
+              <div class="stock-level-item">
+                <label>Actual</label>
+                <div class="level-value">5 L</div>
+              </div>
+              <div class="stock-level-item">
+                <label>Mínimo</label>
+                <div class="level-value">10 L</div>
+              </div>
+              <div class="stock-level-item">
+                <label>Máximo</label>
+                <div class="level-value">40 L</div>
+              </div>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill low" style="width:12%"></div>
+            </div>
+            <div class="stock-card-footer">
+              <span class="stock-provider">Proveedor: PinturasTech</span>
+              <button class="btn btn-outline btn-sm pedir-btn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                Pedir
+              </button>
+            </div>
+          </div>
+
+          <!-- Card: Válvula de Seguridad -->
+          <div class="stock-card">
+            <div class="stock-card-header">
+              <div>
+                <div class="stock-card-name">Válvula de Seguridad</div>
+                <div class="stock-card-category">Repuestos</div>
+              </div>
+            </div>
+            <div class="stock-levels">
+              <div class="stock-level-item">
+                <label>Actual</label>
+                <div class="level-value">15 unidades</div>
+              </div>
+              <div class="stock-level-item">
+                <label>Mínimo</label>
+                <div class="level-value">5 unidades</div>
+              </div>
+              <div class="stock-level-item">
+                <label>Máximo</label>
+                <div class="level-value">30 unidades</div>
+              </div>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill" style="width:40%"></div>
+            </div>
+            <div class="stock-card-footer">
+              <span class="stock-provider">Proveedor: Repuestos GNV</span>
+              <button class="btn btn-outline btn-sm pedir-btn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                Pedir
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── Pedidos Recientes ── -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Pedidos Recientes</h2>
+          <select class="filter-select">
+            <option>Todos los estados</option>
+            <option>En tránsito</option>
+            <option>Pendiente</option>
+            <option>Recibido</option>
+            <option>Cancelado</option>
+          </select>
+        </div>
+        <div class="panel-body">
+
+          <div class="pedido-card">
+            <div class="pedido-card-header">
+              <div>
+                <div class="pedido-name">Químico Limpiador XYZ</div>
+                <div class="pedido-provider">Proveedor: QuimiPro SAC</div>
+              </div>
+              <span class="badge-status badge-transito">en tránsito</span>
+            </div>
+            <div class="pedido-details">
+              <div class="pedido-detail-item">
+                <label>Cantidad</label>
+                <span>20</span>
+              </div>
+              <div class="pedido-detail-item">
+                <label>Fecha</label>
+                <span>2026-03-22</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pedido-card">
+            <div class="pedido-card-header">
+              <div>
+                <div class="pedido-name">Pintura Anticorrosiva</div>
+                <div class="pedido-provider">Proveedor: PinturasTech</div>
+              </div>
+              <span class="badge-status badge-pendiente">pendiente</span>
+            </div>
+            <div class="pedido-details">
+              <div class="pedido-detail-item">
+                <label>Cantidad</label>
+                <span>15</span>
+              </div>
+              <div class="pedido-detail-item">
+                <label>Fecha</label>
+                <span>2026-03-23</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pedido-card">
+            <div class="pedido-card-header">
+              <div>
+                <div class="pedido-name">Válvula de Seguridad</div>
+                <div class="pedido-provider">Proveedor: Repuestos GNV</div>
+              </div>
+              <span class="badge-status badge-recibido">recibido</span>
+            </div>
+            <div class="pedido-details">
+              <div class="pedido-detail-item">
+                <label>Cantidad</label>
+                <span>10</span>
+              </div>
+              <div class="pedido-detail-item">
+                <label>Fecha</label>
+                <span>2026-03-15</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /panels-grid -->
+  </main>
+
+  <!-- ════════════════════ MODAL: NUEVO PEDIDO ════════════════════ -->
+  <div class="modal-overlay" id="modalNuevoPedido">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Nuevo Pedido</h3>
+        <button class="modal-close" onclick="document.getElementById('modalNuevoPedido').classList.remove('open')">×</button>
+      </div>
+      <div class="form-group">
+        <label>Material</label>
+        <select class="form-control">
+          <option value="">Seleccionar material...</option>
+          <option>Químico Limpiador XYZ</option>
+          <option>Pintura Anticorrosiva</option>
+          <option>Válvula de Seguridad</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Proveedor</label>
+        <select class="form-control">
+          <option value="">Seleccionar proveedor...</option>
+          <option>QuimiPro SAC</option>
+          <option>PinturasTech</option>
+          <option>Repuestos GNV</option>
+          <option>Otro proveedor</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cantidad a pedir</label>
+          <input class="form-control" type="number" placeholder="0" min="1" />
+        </div>
+        <div class="form-group">
+          <label>Fecha estimada de llegada</label>
+          <input class="form-control" type="date" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Precio unitario (Bs.)</label>
+          <input class="form-control" type="number" placeholder="0.00" min="0" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label>Estado inicial</label>
+          <select class="form-control">
+            <option>Pendiente</option>
+            <option>En tránsito</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Observaciones</label>
+        <textarea class="form-control" rows="3" placeholder="Notas adicionales del pedido..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-cancel" onclick="document.getElementById('modalNuevoPedido').classList.remove('open')">Cancelar</button>
+        <button class="btn btn-primary">Crear Pedido</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="help-fab">?</button>
+
+  <script>
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.classList.remove('open');
+      });
+    });
+
+    document.querySelectorAll('.pedir-btn, .btn-danger').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById('modalNuevoPedido').classList.add('open');
+      });
+    });
+  </script>
+
+</body>
+</html>

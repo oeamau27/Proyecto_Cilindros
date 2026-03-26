@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Uso de Material</title>
+  <link rel="stylesheet" href="../css/uso-material.css" />
+</head>
+<body>
+
+  <!-- ════════════════════ MAIN ════════════════════ -->
+  <main class="main-content">
+
+    <!-- Header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Uso de Material</h1>
+        <p>Control de inventario para mantenimiento</p>
+      </div>
+      <button class="btn btn-primary" onclick="document.getElementById('modalNuevoMaterial').classList.add('open')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nuevo Material
+      </button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card blue">
+        <div class="stat-info">
+          <label>Total Materiales</label>
+          <div class="stat-value">3</div>
+        </div>
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-info">
+          <label>Bajo Stock Mínimo</label>
+          <div class="stat-value">1</div>
+        </div>
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-info">
+          <label>Stock Adecuado</label>
+          <div class="stat-value">2</div>
+        </div>
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panels -->
+    <div class="panels-grid">
+
+      <!-- ── Inventario ── -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Inventario de Materiales</h2>
+        </div>
+        <div class="panel-body">
+
+          <div class="filter-bar">
+            <input class="search-input" type="text" placeholder="Buscar material..." />
+            <select class="filter-select">
+              <option value="">Todas las categorías</option>
+              <option>Químicos</option>
+              <option>Repuestos</option>
+              <option>Herramientas</option>
+            </select>
+            <select class="filter-select">
+              <option value="">Todos los almacenes</option>
+              <option>Almacén A-01</option>
+              <option>Almacén B-05</option>
+              <option>Almacén A-03</option>
+            </select>
+          </div>
+
+          <!-- Card: Químico Limpiador XYZ -->
+          <div class="material-card">
+            <div class="material-card-header">
+              <div>
+                <div class="material-name">Químico Limpiador XYZ</div>
+                <div class="material-meta">Químicos • Almacén A-01</div>
+              </div>
+            </div>
+            <div class="material-stock-row">
+              <div class="stock-qty">25 <span>L</span></div>
+              <div class="stock-actions">
+                <button class="btn btn-secondary btn-sm">Salida</button>
+                <button class="btn btn-success btn-sm">Entrada</button>
+              </div>
+            </div>
+            <div class="stock-min">Mínimo: 10 L</div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill" style="width: 70%"></div>
+            </div>
+          </div>
+
+          <!-- Card: Válvula de Seguridad -->
+          <div class="material-card">
+            <div class="material-card-header">
+              <div>
+                <div class="material-name">Válvula de Seguridad</div>
+                <div class="material-meta">Repuestos • Almacén B-05</div>
+              </div>
+            </div>
+            <div class="material-stock-row">
+              <div class="stock-qty">15 <span>unidades</span></div>
+              <div class="stock-actions">
+                <button class="btn btn-secondary btn-sm">Salida</button>
+                <button class="btn btn-success btn-sm">Entrada</button>
+              </div>
+            </div>
+            <div class="stock-min">Mínimo: 5 unidades</div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill" style="width: 80%"></div>
+            </div>
+          </div>
+
+          <!-- Card: Pintura Anticorrosiva (bajo stock) -->
+          <div class="material-card low-stock">
+            <div class="material-card-header">
+              <div>
+                <div class="material-name">Pintura Anticorrosiva</div>
+                <div class="material-meta">Químicos • Almacén A-03</div>
+              </div>
+              <span class="badge-low">¡Bajo Stock!</span>
+            </div>
+            <div class="material-stock-row">
+              <div class="stock-qty">8 <span>L</span></div>
+              <div class="stock-actions">
+                <button class="btn btn-secondary btn-sm">Salida</button>
+                <button class="btn btn-success btn-sm">Entrada</button>
+              </div>
+            </div>
+            <div class="stock-min">Mínimo: 12 L</div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill low" style="width: 30%"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── Últimos Movimientos ── -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Últimos Movimientos</h2>
+          <select class="filter-select">
+            <option>Todos</option>
+            <option>Entradas</option>
+            <option>Salidas</option>
+          </select>
+        </div>
+        <div class="panel-body">
+
+          <div class="movement-item">
+            <div class="movement-icon entrada">+</div>
+            <div class="movement-info">
+              <div class="movement-title">Entrada - Válvula de Seguridad</div>
+              <div class="movement-detail">Cantidad: 10 • María López</div>
+              <div class="movement-date">2026-03-22</div>
+            </div>
+          </div>
+
+          <div class="movement-item">
+            <div class="movement-icon salida">−</div>
+            <div class="movement-info">
+              <div class="movement-title">Salida - Químico Limpiador XYZ</div>
+              <div class="movement-detail">Cantidad: 2 • Juan Pérez • Cilindro: C-1234</div>
+              <div class="movement-date">2026-03-23</div>
+            </div>
+          </div>
+
+          <div class="movement-item">
+            <div class="movement-icon entrada">+</div>
+            <div class="movement-info">
+              <div class="movement-title">Entrada - Pintura Anticorrosiva</div>
+              <div class="movement-detail">Cantidad: 5 • Carlos Ruiz</div>
+              <div class="movement-date">2026-03-21</div>
+            </div>
+          </div>
+
+          <div class="movement-item">
+            <div class="movement-icon salida">−</div>
+            <div class="movement-info">
+              <div class="movement-title">Salida - Válvula de Seguridad</div>
+              <div class="movement-detail">Cantidad: 3 • Ana Torres • Equipo: EQ-005</div>
+              <div class="movement-date">2026-03-20</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /panels-grid -->
+  </main>
+
+  <!-- ════════════════════ MODAL: NUEVO MATERIAL ════════════════════ -->
+  <div class="modal-overlay" id="modalNuevoMaterial">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Nuevo Material</h3>
+        <button class="modal-close" onclick="document.getElementById('modalNuevoMaterial').classList.remove('open')">×</button>
+      </div>
+      <div class="form-group">
+        <label>Nombre del Material</label>
+        <input class="form-control" type="text" placeholder="Ej. Aceite Hidráulico ISO 46" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Categoría</label>
+          <select class="form-control">
+            <option value="">Seleccionar...</option>
+            <option>Químicos</option>
+            <option>Repuestos</option>
+            <option>Herramientas</option>
+            <option>Consumibles</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Unidad de Medida</label>
+          <select class="form-control">
+            <option value="">Seleccionar...</option>
+            <option>Litros (L)</option>
+            <option>Unidades</option>
+            <option>Kilogramos (kg)</option>
+            <option>Metros (m)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Almacén</label>
+        <select class="form-control">
+          <option value="">Seleccionar almacén...</option>
+          <option>Almacén A-01</option>
+          <option>Almacén A-03</option>
+          <option>Almacén B-05</option>
+          <option>Almacén C-02</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Stock Inicial</label>
+          <input class="form-control" type="number" placeholder="0" min="0" />
+        </div>
+        <div class="form-group">
+          <label>Stock Mínimo</label>
+          <input class="form-control" type="number" placeholder="0" min="0" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Descripción (opcional)</label>
+        <textarea class="form-control" rows="3" placeholder="Descripción o notas del material..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-cancel" onclick="document.getElementById('modalNuevoMaterial').classList.remove('open')">Cancelar</button>
+        <button class="btn btn-primary">Guardar Material</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════ MODAL: MOVIMIENTO ════════════════════ -->
+  <div class="modal-overlay" id="modalMovimiento">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalMovimientoTitulo">Registrar Salida</h3>
+        <button class="modal-close" onclick="document.getElementById('modalMovimiento').classList.remove('open')">×</button>
+      </div>
+      <div class="form-group">
+        <label>Material</label>
+        <select class="form-control">
+          <option>Químico Limpiador XYZ</option>
+          <option>Válvula de Seguridad</option>
+          <option>Pintura Anticorrosiva</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cantidad</label>
+          <input class="form-control" type="number" placeholder="0" min="1" />
+        </div>
+        <div class="form-group">
+          <label>Fecha</label>
+          <input class="form-control" type="date" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Responsable</label>
+        <input class="form-control" type="text" placeholder="Nombre del responsable" />
+      </div>
+      <div class="form-group">
+        <label>Equipo / Referencia (opcional)</label>
+        <input class="form-control" type="text" placeholder="Ej. Cilindro C-1234" />
+      </div>
+      <div class="form-group">
+        <label>Observaciones</label>
+        <textarea class="form-control" rows="2" placeholder="Motivo o notas..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-cancel" onclick="document.getElementById('modalMovimiento').classList.remove('open')">Cancelar</button>
+        <button class="btn btn-primary">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="help-fab">?</button>
+
+  <script>
+    document.querySelectorAll('.btn-secondary').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById('modalMovimientoTitulo').textContent = 'Registrar Salida';
+        document.getElementById('modalMovimiento').classList.add('open');
+      });
+    });
+    document.querySelectorAll('.btn-success').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById('modalMovimientoTitulo').textContent = 'Registrar Entrada';
+        document.getElementById('modalMovimiento').classList.add('open');
+      });
+    });
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.classList.remove('open');
+      });
+    });
+  </script>
+
+</body>
+</html>
