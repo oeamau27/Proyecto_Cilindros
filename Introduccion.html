@@ -382,8 +382,8 @@ footer h3{
 
 </footer>
 
+<!-- PANEL LOGIN -->
 <div id="panelLogin" class="panel-login">
-
     <div class="contenido-login">
 
         <span class="cerrar" onclick="cerrarLogin()">×</span>
@@ -396,14 +396,43 @@ footer h3{
             <option>Usuario</option>
         </select>
 
-        <input type="text" placeholder="Usuario">
-        <input type="password" placeholder="Contraseña">
+        <input type="text" id="usuario" placeholder="Usuario">
+        <input type="password" id="password" placeholder="Contraseña">
 
-        <button class="btn">Ingresar</button>
+        <button class="btn" onclick="login()">Ingresar</button>
 
     </div>
-
 </div>
+
+
+<!-- SCRIPTS -->
+<script>
+function irInicio(){
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+function abrirLogin(){
+    document.getElementById("panelLogin").classList.add("activo");
+}
+
+function cerrarLogin(){
+    document.getElementById("panelLogin").classList.remove("activo");
+}
+
+function login(){
+    let user = document.getElementById("usuario").value;
+    let pass = document.getElementById("password").value;
+
+    if(user === "admin" && pass === "1234"){
+        window.location.href = "RegInfoCilindros.html";
+    } else {
+        alert("Usuario o contraseña incorrectos");
+    }
+}
+</script>
 
 <script>
 function irInicio(){
