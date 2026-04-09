@@ -1,0 +1,84 @@
+/* ================================================
+   registro_entrega.css  —  Estilos del módulo Trabajos
+   Requiere: shared.css
+   ================================================ */
+
+/* FILTER BAR */
+.filter-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(10px, 3%, 14px) clamp(12px, 4%, 20px);
+  margin-bottom: var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: var(--shadow);
+  flex-wrap: wrap;
+}
+.filter-left { display: flex; align-items: center; gap: 10px; }
+.filter-left svg { color: var(--muted); }
+.filter-left select {
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(.8rem, 2vw, .875rem);
+  color: var(--text);
+  background: var(--bg2);
+  outline: none;
+  cursor: pointer;
+  max-width: 55vw;
+}
+.filter-left select option { background: var(--bg2); }
+.filter-stats { display: flex; gap: clamp(10px, 3vw, 18px); flex-wrap: wrap; }
+.stat-pill { display: flex; align-items: center; gap: 6px; font-size: clamp(.72rem, 2vw, .8rem); font-weight: 500; color: var(--text-dim); }
+.dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.dot-orange { background: var(--accent); }
+.dot-yellow { background: #facc15; }
+.dot-green  { background: var(--green); }
+
+/* TABLE */
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+table { width: 100%; border-collapse: collapse; }
+thead { background: var(--bg2); }
+thead th {
+  padding: clamp(8px,2vw,12px) clamp(10px,3vw,20px);
+  text-align: left;
+  font-size: clamp(.66rem, 1.5vw, .72rem);
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .7px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--surface2); }
+td { padding: clamp(10px,2.5vw,16px) clamp(10px,3vw,20px); font-size: clamp(.8rem,2vw,.875rem); vertical-align: middle; }
+.cyl-code { font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(.82rem,2vw,.9rem); color: var(--accent); }
+
+/* Tabla → tarjetas en móvil */
+@media (max-width: 640px) {
+  .table-wrap { background: transparent; border: none; box-shadow: none; border-radius: 0; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  tbody tr { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; padding: 14px 16px; box-shadow: var(--shadow); }
+  td { padding: 5px 0; font-size: .85rem; display: flex; gap: 8px; align-items: flex-start; }
+  td::before { content: attr(data-label); font-size: .7rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; min-width: 78px; flex-shrink: 0; padding-top: 2px; }
+}
+
+/* BADGES */
+.badge { display: inline-block; padding: 3px 11px; border-radius: 20px; font-size: .73rem; font-weight: 700; letter-spacing: .3px; }
+.badge-recibido  { background: var(--tag-rec); color: var(--tag-rec-c); }
+.badge-proceso   { background: var(--tag-ep);  color: var(--tag-ep-c);  }
+.badge-completado{ background: var(--tag-ok);  color: var(--tag-ok-c);  }
+.badge-entregado { background: var(--tag-ent); color: var(--tag-ent-c); }

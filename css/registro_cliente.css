@@ -1,0 +1,67 @@
+/* ================================================
+   registro_cliente.css  —  Estilos del módulo Clientes
+   Requiere: shared.css
+   ================================================ */
+
+/* GRID DE TARJETAS */
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: clamp(12px, 3vw, 18px);
+}
+
+/* TARJETA CLIENTE */
+.client-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(16px, 4%, 22px);
+  box-shadow: var(--shadow);
+  transition: box-shadow .2s, transform .2s, border-color .2s;
+  position: relative;
+  overflow: hidden;
+}
+.client-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+  opacity: 0;
+  transition: opacity .2s;
+}
+.client-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); border-color: var(--accent); }
+.client-card:hover::before { opacity: 1; }
+
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+.avatar {
+  width: clamp(38px, 8vw, 46px);
+  height: clamp(38px, 8vw, 46px);
+  border-radius: 50%;
+  background: var(--accent-lt);
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: clamp(.75rem, 2vw, .88rem);
+  letter-spacing: .5px;
+  flex-shrink: 0;
+}
+.client-id   { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.client-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(.95rem, 2.5vw, 1.05rem); margin-bottom: 10px; color: var(--text); }
+.client-detail {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(.76rem, 2vw, .82rem);
+  color: var(--text-dim);
+  margin-bottom: 5px;
+  word-break: break-word;
+}
+.client-detail strong { color: var(--text); font-weight: 500; }
+.client-detail svg { flex-shrink: 0; }
+.card-divider { height: 1px; background: var(--border); margin: 14px 0 10px; }
+.client-date  { font-size: .72rem; color: var(--muted); }
