@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro de Clientes — AUTOGAS JW</title>
+  <link rel="stylesheet" href="./css/shared.css"/>
+  <link rel="stylesheet" href="./css/registro_cliente.css"/>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">⬡ AUTOGAS <span>JW</span></div>
+  <div class="nav-tabs">
+    <a class="nav-tab active" href="registro_cliente.html">Clientes</a>
+    <a class="nav-tab" href="registro_entrega.html">Trabajos y Entregas</a>
+  </div>
+</nav>
+
+<!-- PÁGINA CLIENTES -->
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>Registro de <em>Clientes</em></h1>
+      <p>Gestión de propietarios de cilindros GNV</p>
+    </div>
+    <button class="btn btn-orange" onclick="openModal('modal-cliente')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Nuevo Cliente
+    </button>
+  </div>
+
+  <div class="search-box">
+    <div class="search-inner">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="text" id="search-cliente" placeholder="Buscar por nombre, apellido o DNI…" oninput="filterClientes()"/>
+    </div>
+  </div>
+
+  <div class="client-grid" id="client-grid"></div>
+</div>
+
+<!-- MODAL NUEVO CLIENTE -->
+<div class="modal-overlay" id="modal-cliente">
+  <div class="modal">
+    <h2>Registrar <span>Nuevo Cliente</span></h2>
+    <div class="form-grid">
+      <div class="field"><label>Nombre</label><input type="text" id="c-nombre" placeholder="Ej. Roberto"/></div>
+      <div class="field"><label>Apellido</label><input type="text" id="c-apellido" placeholder="Ej. García"/></div>
+      <div class="field"><label>DNI</label><input type="text" id="c-dni" placeholder="Ej. 45678912"/></div>
+      <div class="field"><label>Teléfono</label><input type="tel" id="c-tel" placeholder="Ej. 987123456"/></div>
+      <div class="field"><label>Email</label><input type="email" id="c-email" placeholder="correo@email.com"/></div>
+      <div class="field"><label>Dirección</label><input type="text" id="c-dir" placeholder="Av. Principal 123"/></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-cliente')">Cancelar</button>
+      <button class="btn btn-orange" onclick="guardarCliente()">Guardar Cliente</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let clientes = [
+  {id:1, nombre:'Roberto', apellido:'García',   dni:'45678912', tel:'987123456', email:'roberto.garcia@email.com', dir:'Av. Lima 234',  fecha:'2025-01-10'},
+  {id:2, nombre:'Ana',     apellido:'Martínez', dni:'78945612', tel:'912345678', email:'ana.martinez@email.com',   dir:'Jr. Puno 45',   fecha:'2025-02-15'},
+];
+
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o =>
+  o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); })
+);
+
+function initials(n, a) { return (n[0] || '') + (a[0] || ''); }
+
+function renderClientes(list) {
+  const grid = document.getElementById('client-grid');
+  if (!list.length) { grid.innerHTML = '<div class="empty">No se encontraron clientes.</div>'; return; }
+  grid.innerHTML = list.map(c => `
+    <div class="client-card">
+      <div class="card-top">
+        <div class="avatar">${initials(c.nombre, c.apellido)}</div>
+        <span class="client-id">ID: ${c.id}</span>
+      </div>
+      <div class="client-name">${c.nombre} ${c.apellido}</div>
+      <div class="client-detail"><strong>DNI:</strong> ${c.dni}</div>
+      <div class="client-detail">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.64 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.55 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.61 5.61l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        ${c.tel}
+      </div>
+      <div class="client-detail">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        ${c.email}
+      </div>
+      <div class="card-divider"></div>
+      <div class="client-date">Registrado: ${c.fecha}</div>
+    </div>`).join('');
+}
+
+function filterClientes() {
+  const q = document.getElementById('search-cliente').value.toLowerCase();
+  renderClientes(clientes.filter(c =>
+    c.nombre.toLowerCase().includes(q) ||
+    c.apellido.toLowerCase().includes(q) ||
+    c.dni.includes(q)
+  ));
+}
+
+function guardarCliente() {
+  const nombre   = document.getElementById('c-nombre').value.trim();
+  const apellido = document.getElementById('c-apellido').value.trim();
+  const dni      = document.getElementById('c-dni').value.trim();
+  if (!nombre || !apellido || !dni) { alert('Nombre, apellido y DNI son obligatorios.'); return; }
+  const id = clientes.length ? Math.max(...clientes.map(c => c.id)) + 1 : 1;
+  clientes.push({
+    id, nombre, apellido, dni,
+    tel:   document.getElementById('c-tel').value.trim(),
+    email: document.getElementById('c-email').value.trim(),
+    dir:   document.getElementById('c-dir').value.trim(),
+    fecha: new Date().toISOString().split('T')[0]
+  });
+  ['c-nombre','c-apellido','c-dni','c-tel','c-email','c-dir'].forEach(f => document.getElementById(f).value = '');
+  closeModal('modal-cliente');
+  filterClientes();
+}
+
+// Init
+renderClientes(clientes);
+</script>
+</body>
+</html>
