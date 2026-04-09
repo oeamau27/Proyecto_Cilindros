@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trabajos y Entregas — AUTOGAS JW</title>
+  <link rel="stylesheet" href="./css/shared.css"/>
+  <link rel="stylesheet" href="./css/registro_entrega.css"/>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">⬡ AUTOGAS <span>JW</span></div>
+  <div class="nav-tabs">
+    <a class="nav-tab" href="registro_cliente.html">Clientes</a>
+    <a class="nav-tab active" href="registro_entrega.html">Trabajos y Entregas</a>
+  </div>
+</nav>
+
+<!-- PÁGINA TRABAJOS -->
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>Trabajos y <em>Entregas</em></h1>
+      <p>Control de estado de cilindros y entregas</p>
+    </div>
+    <button class="btn btn-green" onclick="openModal('modal-trabajo')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Nuevo Trabajo
+    </button>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-left">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+      </svg>
+      <select id="filter-estado" onchange="filterTrabajos()">
+        <option value="">Todos los Estados</option>
+        <option value="recibido">Recibido</option>
+        <option value="en proceso">En Proceso</option>
+        <option value="completado">Completado</option>
+        <option value="entregado">Entregado</option>
+      </select>
+    </div>
+    <div class="filter-stats" id="filter-stats"></div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Cilindro</th>
+          <th>Cliente</th>
+          <th>Tipo Trabajo</th>
+          <th>Técnico</th>
+          <th>Ingreso</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody id="trabajos-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODAL NUEVO TRABAJO -->
+<div class="modal-overlay" id="modal-trabajo">
+  <div class="modal">
+    <h2>Registrar <span>Nuevo Trabajo</span></h2>
+    <div class="form-grid">
+      <div class="field">
+        <label>Código Cilindro</label>
+        <input type="text" id="t-cilindro" placeholder="Ej. C-1234"/>
+      </div>
+      <div class="field">
+        <label>Cliente</label>
+        <input type="text" id="t-cliente" placeholder="Nombre del cliente"/>
+      </div>
+      <div class="field">
+        <label>Tipo de Trabajo</label>
+        <select id="t-tipo">
+          <option value="">Seleccionar tipo</option>
+          <option>Recalificación</option>
+          <option>Mantenimiento Preventivo</option>
+          <option>Reparación</option>
+          <option>Inspección</option>
+          <option>Cambio de Válvula</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Técnico Asignado</label>
+        <select id="t-tecnico">
+          <option value="">Seleccionar técnico</option>
+          <option>Juan Pérez</option>
+          <option>María López</option>
+          <option>Carlos Ramos</option>
+          <option>Laura Torres</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label>Observaciones</label>
+        <textarea id="t-obs" rows="3" placeholder="Notas adicionales sobre el trabajo…"></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-trabajo')">Cancelar</button>
+      <button class="btn btn-green" onclick="guardarTrabajo()">Registrar Trabajo</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let trabajos = [
+  {id:1, cilindro:'C-1234', cliente:'Roberto García', tipo:'Recalificación',          tecnico:'Juan Pérez',  fecha:'2026-03-20', estado:'entregado'},
+  {id:2, cilindro:'C-5678', cliente:'Ana Martínez',   tipo:'Mantenimiento Preventivo', tecnico:'María López', fecha:'2026-03-23', estado:'en proceso'},
+  {id:3, cilindro:'C-9012', cliente:'Carlos Ramos',   tipo:'Reparación',               tecnico:'Juan Pérez',  fecha:'2026-03-23', estado:'recibido'},
+];
+
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o =>
+  o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); })
+);
+
+function badgeClass(e) {
+  return e === 'recibido'   ? 'badge-recibido'  :
+         e === 'en proceso' ? 'badge-proceso'   :
+         e === 'completado' ? 'badge-completado': 'badge-entregado';
+}
+
+function renderStats() {
+  const c = { recibido: 0, 'en proceso': 0, completado: 0 };
+  trabajos.forEach(t => { if (c[t.estado] !== undefined) c[t.estado]++; });
+  document.getElementById('filter-stats').innerHTML = `
+    <span class="stat-pill"><span class="dot dot-orange"></span>Recibido: ${c.recibido}</span>
+    <span class="stat-pill"><span class="dot dot-yellow"></span>En Proceso: ${c['en proceso']}</span>
+    <span class="stat-pill"><span class="dot dot-green"></span>Completado: ${c.completado}</span>`;
+}
+
+function renderTrabajos(list) {
+  const tbody = document.getElementById('trabajos-tbody');
+  if (!list.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">No hay trabajos registrados.</td></tr>'; return; }
+  tbody.innerHTML = list.map(t => `
+    <tr>
+      <td data-label="ID" style="color:var(--muted);font-size:.8rem">${t.id}</td>
+      <td data-label="Cilindro"><span class="cyl-code">${t.cilindro}</span></td>
+      <td data-label="Cliente">${t.cliente}</td>
+      <td data-label="Tipo">${t.tipo}</td>
+      <td data-label="Técnico">${t.tecnico}</td>
+      <td data-label="Ingreso" style="color:var(--text-dim)">${t.fecha}</td>
+      <td data-label="Estado"><span class="badge ${badgeClass(t.estado)}">${t.estado}</span></td>
+    </tr>`).join('');
+}
+
+function filterTrabajos() {
+  const e = document.getElementById('filter-estado').value;
+  renderTrabajos(e ? trabajos.filter(t => t.estado === e) : trabajos);
+}
+
+function guardarTrabajo() {
+  const cilindro = document.getElementById('t-cilindro').value.trim();
+  const cliente  = document.getElementById('t-cliente').value.trim();
+  const tipo     = document.getElementById('t-tipo').value;
+  const tecnico  = document.getElementById('t-tecnico').value;
+  if (!cilindro || !cliente || !tipo || !tecnico) { alert('Todos los campos principales son obligatorios.'); return; }
+  const id = trabajos.length ? Math.max(...trabajos.map(t => t.id)) + 1 : 1;
+  trabajos.push({ id, cilindro, cliente, tipo, tecnico, fecha: new Date().toISOString().split('T')[0], estado: 'recibido' });
+  ['t-cilindro','t-cliente','t-obs'].forEach(f => document.getElementById(f).value = '');
+  document.getElementById('t-tipo').value = '';
+  document.getElementById('t-tecnico').value = '';
+  closeModal('modal-trabajo');
+  renderStats();
+  filterTrabajos();
+}
+
+// Init
+renderStats();
+renderTrabajos(trabajos);
+</script>
+</body>
+</html>
