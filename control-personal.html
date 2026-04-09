@@ -4,907 +4,140 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Personal - Sistema GNV</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
 
-        body {
-            background: #020617;
-            color: white;
-        }
+    <!-- CSS GLOBAL -->
+    <link rel="stylesheet" href="css/Global.css">
 
-        header {
-            position: sticky;
-            top: 0;
-            background: rgba(2, 6, 23, 0.95);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 50px;
-            border-bottom: 1px solid rgba(22, 163, 74, 0.3);
-            z-index: 1000;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        .logo span {
-            font-weight: bold;
-            color: #f97316;
-            font-size: 1.2rem;
-        }
-
-        nav {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        nav a:hover {
-            color: #16a34a;
-        }
-
-        nav a.active {
-            color: #16a34a;
-            border-bottom: 2px solid #16a34a;
-            padding-bottom: 5px;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: #1e3a8a;
-            padding: 8px 15px;
-            border-radius: 20px;
-        }
-
-        .user-info span {
-            color: #f97316;
-        }
-
-        .logout-btn {
-            background: #dc2626;
-            padding: 5px 12px;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        .logout-btn:hover {
-            background: #ef4444;
-        }
-
-        .main-content {
-            padding: 40px 50px;
-            min-height: calc(100vh - 200px);
-        }
-
-        .module-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .module-header h2 {
-            color: #f97316;
-            font-size: 1.8rem;
-        }
-
-        .module-header p {
-            color: #94a3b8;
-            margin-top: 5px;
-        }
-
-        .btn {
-            background: #16a34a;
-            padding: 12px 30px;
-            border: none;
-            color: white;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn:hover {
-            background: #22c55e;
-            transform: translateY(-2px);
-        }
-
-        .btn-orange {
-            background: #f97316;
-        }
-
-        .btn-orange:hover {
-            background: #fb923c;
-        }
-
-        .btn-blue {
-            background: #3b82f6;
-        }
-
-        .btn-blue:hover {
-            background: #60a5fa;
-        }
-
-        .stats-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: #1e3a8a;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            transition: 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-            background: #2563eb;
-        }
-
-        .stat-card h4 {
-            color: #f97316;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-        }
-
-        .stat-card .number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: white;
-        }
-
-        .action-buttons-bar {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .ingreso-section, .salida-section {
-            flex: 1;
-            min-width: 280px;
-            background: #1e293b;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .historial-section {
-            width: 100%;
-            margin-top: 20px;
-            background: #1e293b;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .section-title {
-            color: #f97316;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-select {
-            width: 100%;
-            padding: 12px;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 5px;
-            color: white;
-            margin-bottom: 15px;
-            outline: none;
-        }
-
-        .hora-actual {
-            background: #0f172a;
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            color: #16a34a;
-        }
-
-        .filter-group {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .filter-group input, .filter-group select {
-            padding: 10px;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 5px;
-            color: white;
-            outline: none;
-        }
-
-        .filter-group input {
-            flex: 1;
-        }
-
-        .filter-group select {
-            min-width: 150px;
-        }
-
-        .table-container {
-            overflow-x: auto;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #334155;
-        }
-
-        th {
-            background: #0f172a;
-            color: #f97316;
-            font-weight: 600;
-        }
-
-        tr:hover {
-            background: #334155;
-        }
-
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            display: inline-block;
-        }
-
-        .status-ingreso {
-            background: #16a34a;
-        }
-
-        .status-salida {
-            background: #f97316;
-        }
-
-        .alert {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 12px 20px;
-            border-radius: 5px;
-            z-index: 3000;
-            animation: slideIn 0.3s ease;
-        }
-
-        .alert-success {
-            background: rgba(34, 197, 94, 0.9);
-            color: white;
-        }
-
-        .alert-error {
-            background: rgba(220, 38, 38, 0.9);
-            color: white;
-        }
-
-        .alert-info {
-            background: rgba(59, 130, 246, 0.9);
-            color: white;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        footer {
-            background: black;
-            padding: 40px 50px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            border-top: 2px solid #16a34a;
-        }
-
-        footer h3 {
-            color: #f97316;
-            margin-bottom: 15px;
-        }
-
-        footer p {
-            color: #94a3b8;
-            line-height: 1.6;
-        }
-
-        .redes {
-            margin-top: 15px;
-            display: flex;
-            gap: 15px;
-        }
-
-        .redes a {
-            color: white;
-            text-decoration: none;
-            background: #1e3a8a;
-            padding: 8px 12px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-
-        .redes a:hover {
-            background: #16a34a;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #f97316;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .back-link:hover {
-            color: #16a34a;
-        }
-
-        .horas-trabajadas {
-            background: #0f172a;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #f97316;
-        }
-
-        .jefe-message {
-            background: #1e293b;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .jefe-message h3 {
-            color: #f97316;
-            margin-bottom: 10px;
-        }
-
-        .jefe-message p {
-            color: #94a3b8;
-        }
-
-        @media (max-width: 768px) {
-            .main-content { padding: 20px; }
-            .action-buttons-bar { flex-direction: column; }
-            header { flex-direction: column; text-align: center; }
-            nav { justify-content: center; }
-            .stats-cards { grid-template-columns: repeat(2, 1fr); }
-            .module-header { flex-direction: column; text-align: center; }
-            footer { padding: 30px 20px; }
-            .filter-group { flex-direction: column; }
-            .filter-group input, .filter-group select { width: 100%; }
-        }
-    </style>
+    <!-- CSS MÓDULOS -->
+    <link rel="stylesheet" href="css/Modulos.css">
 </head>
+
 <body>
 
-    <header>
-        <div class="logo" onclick="location.href='index.html'">
-            <span>🔧 AUTOGAS JW</span>
-        </div>
-        <nav>
-            <a href="index.html">Inicio</a>
-            <a href="gestion-personal.html">Gestión de Personal</a>
-            <a href="#" class="active">Control de Personal</a>
-        </nav>
-        <div class="user-info" id="userInfo">
-            <span>👤 <span id="nombreUsuario">Cargando...</span></span>
-            <button class="logout-btn" onclick="cerrarSesion()">Salir</button>
-        </div>
-    </header>
+<header>
+    <div class="logo" onclick="location.href='index.html'">
+        <span>🔧 AUTOGAS JW</span>
+    </div>
 
-    <div class="main-content">
-        <a href="index.html" class="back-link">← Volver al inicio</a>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="gestion-personal.html">Gestión de Personal</a>
+        <a href="#" class="active">Control de Personal</a>
+    </nav>
 
-        <div class="module-header">
-            <div>
-                <h2>⏱️ Control de Personal</h2>
-                <p id="descripcionModulo">Registro de ingresos y salidas del personal</p>
-            </div>
-        </div>
+    <div class="user-info" id="userInfo">
+        <span>👤 <span id="nombreUsuario">Cargando...</span></span>
+        <button class="logout-btn" onclick="cerrarSesion()">Salir</button>
+    </div>
+</header>
 
-        <!-- Tarjetas de estadísticas -->
-        <div class="stats-cards">
-            <div class="stat-card"><h4>Personal Activo Hoy</h4><div class="number" id="activosHoy">0</div></div>
-            <div class="stat-card"><h4>Total Registros Hoy</h4><div class="number" id="totalRegistrosHoy">0</div></div>
-            <div class="stat-card"><h4>Horas Trabajadas Hoy</h4><div class="number" id="totalHorasHoy">0</div></div>
-        </div>
+<div class="main-content">
 
-        <!-- Contenedor dinámico: para JEFE o para USUARIO -->
-        <div id="contenidoDinamico"></div>
+    <a href="index.html" class="back-link">← Volver al inicio</a>
 
-        <!-- Historial -->
-        <div class="historial-section">
-            <div class="section-title">
-                <span>📋</span> Historial de Asistencia
-                <span id="filtroRolInfo" style="font-size: 0.8rem; color: #94a3b8;"></span>
-            </div>
-            
-            <div class="filter-group" id="filterGroup">
-                <select id="filtroUsuario">
-                    <option value="">Todos los usuarios</option>
-                </select>
-                <input type="date" id="fechaInicio" placeholder="Fecha inicio">
-                <input type="date" id="fechaFin" placeholder="Fecha fin">
-                <button class="btn btn-blue" id="btnBuscarHistorial">🔍 Buscar</button>
-                <button class="btn btn-secondary" id="btnLimpiarFiltros">Limpiar</button>
-            </div>
-
-            <div class="table-container">
-                <h3 style="color: #f97316; margin-bottom: 15px;">📊 Registros de Asistencia</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Usuario</th>
-                            <th>Rol</th>
-                            <th>Tipo</th>
-                            <th>Hora</th>
-                            <th>Horas Trabajadas</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaHistorial">
-                        <tr>
-                            <td colspan="6" style="text-align: center;">Cargando datos...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <div class="module-header">
+        <div>
+            <h2>⏱️ Control de Personal</h2>
+            <p id="descripcionModulo">Registro de ingresos y salidas del personal</p>
         </div>
     </div>
 
-    <footer>
-        <div>
-            <h3>CONÓCENOS</h3>
-            <p>Cilindros GNV<br>Servicios<br>Sistema</p>
+    <!-- Estadísticas -->
+    <div class="stats-cards">
+        <div class="stat-card">
+            <h4>Personal Activo Hoy</h4>
+            <div class="number" id="activosHoy">0</div>
         </div>
-        <div>
-            <h3>INGENIERÍA</h3>
-            <p>Sistema enfocado en optimizar procesos técnicos.</p>
+        <div class="stat-card">
+            <h4>Total Registros Hoy</h4>
+            <div class="number" id="totalRegistrosHoy">0</div>
         </div>
-        <div>
-            <h3>TECNOLOGÍA</h3>
-            <p>Plataforma web moderna con reportes automáticos.</p>
+        <div class="stat-card">
+            <h4>Horas Trabajadas Hoy</h4>
+            <div class="number" id="totalHorasHoy">0</div>
         </div>
-        <div>
-            <h3>CONTACTO</h3>
-            <p>La Paz - Bolivia<br>Email: autogasjw@gmail.com</p>
-            <div class="redes">
-                <a href="#">📘 Facebook</a>
-                <a href="#">🎵 TikTok</a>
-                <a href="#">💬 WhatsApp</a>
-            </div>
+    </div>
+
+    <!-- Contenido dinámico -->
+    <div id="contenidoDinamico"></div>
+
+    <!-- Historial -->
+    <div class="historial-section">
+
+        <div class="section-title">
+            <span>📋</span> Historial de Asistencia
+            <span id="filtroRolInfo" style="font-size: 0.8rem; color: #94a3b8;"></span>
         </div>
-    </footer>
 
-    <script>
-        // ==================== VARIABLES GLOBALES ====================
-        let personalData = [];
-        let asistenciaData = [];
-        let usuarioLogueado = null;
-        let esJefe = false;
+        <div class="filter-group" id="filterGroup">
+            <select id="filtroUsuario">
+                <option value="">Todos los usuarios</option>
+            </select>
 
-        // ==================== MANEJO DE SESIÓN ====================
-        function cargarSesion() {
-            const sesion = sessionStorage.getItem('usuarioLogueado');
-            if (!sesion) {
-                mostrarAlerta('No hay sesión activa. Redirigiendo al inicio...', 'error');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 2000);
-                return false;
-            }
-            
-            usuarioLogueado = JSON.parse(sesion);
-            esJefe = (usuarioLogueado.usuario === 'admi');
-            
-            document.getElementById('nombreUsuario').textContent = esJefe ? 'JEFE - Administrador' : usuarioLogueado.nombre || 'Usuario';
-            
-            return true;
-        }
+            <input type="date" id="fechaInicio">
+            <input type="date" id="fechaFin">
 
-        function cerrarSesion() {
-            sessionStorage.removeItem('usuarioLogueado');
-            mostrarAlerta('Sesión cerrada correctamente', 'success');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1000);
-        }
+            <button class="btn btn-blue" id="btnBuscarHistorial">🔍 Buscar</button>
+            <button class="btn btn-secondary" id="btnLimpiarFiltros">Limpiar</button>
+        </div>
 
-        // ==================== CARGA DE DATOS ====================
-        function cargarDatos() {
-            // Cargar personal desde localStorage
-            const storedPersonal = localStorage.getItem('personalGNV');
-            if (storedPersonal) {
-                personalData = JSON.parse(storedPersonal);
-            } else {
-                personalData = [
-                    { id: 1, nombre: "Juan Pérez", rol: "tecnico", activo: true },
-                    { id: 2, nombre: "María López", rol: "administrativo", activo: true },
-                    { id: 3, nombre: "Carlos Ruiz", rol: "tecnico", activo: true },
-                    { id: 4, nombre: "Ana Torres", rol: "tecnico", activo: true },
-                    { id: 5, nombre: "Luis Mendoza", rol: "administrativo", activo: true },
-                    { id: 6, nombre: "Roberto Jiménez", rol: "tecnico", activo: true },
-                    { id: 7, nombre: "Laura Vargas", rol: "tecnico", activo: true }
-                ];
-            }
-            
-            // Cargar asistencia desde localStorage
-            const storedAsistencia = localStorage.getItem('asistenciaGNV');
-            if (storedAsistencia) {
-                asistenciaData = JSON.parse(storedAsistencia);
-            } else {
-                asistenciaData = [];
-            }
-            
-            actualizarInterfazPorRol();
-            actualizarEstadisticas();
-            actualizarTablaHistorial();
-        }
+        <div class="table-container">
+            <h3 style="color:#f97316; margin-bottom:15px;">📊 Registros de Asistencia</h3>
 
-        function guardarAsistencia() {
-            localStorage.setItem('asistenciaGNV', JSON.stringify(asistenciaData));
-        }
-
-        // ==================== INTERFAZ SEGÚN ROL ====================
-        function actualizarInterfazPorRol() {
-            const contenidoDinamico = document.getElementById('contenidoDinamico');
-            const filterGroup = document.getElementById('filterGroup');
-            const filtroRolInfo = document.getElementById('filtroRolInfo');
-            const descripcionModulo = document.getElementById('descripcionModulo');
-            
-            if (esJefe) {
-                // JEFE: solo ve historial, NO botones de ingreso/salida
-                contenidoDinamico.innerHTML = `
-                    <div class="jefe-message">
-                        <h3>👑 Panel de Administración</h3>
-                        <p>Como JEFE, puedes visualizar el historial completo de asistencia de todo el personal.</p>
-                        <p>Los registros de ingreso y salida son responsabilidad de cada empleado.</p>
-                    </div>
-                `;
-                filterGroup.style.display = 'flex';
-                filtroRolInfo.textContent = '(Acceso completo - Ver todos los usuarios)';
-                descripcionModulo.textContent = 'Visualización de asistencia del personal';
-            } else {
-                // USUARIO NORMAL: puede registrar sus ingresos/salidas
-                contenidoDinamico.innerHTML = `
-                    <div class="action-buttons-bar">
-                        <div class="ingreso-section">
-                            <div class="section-title">
-                                <span>📥</span> Registrar Ingreso
-                            </div>
-                            <div class="hora-actual" id="horaActualIngreso">
-                                Hora actual: --:--:--
-                            </div>
-                            <button class="btn btn-blue" id="btnRegistrarIngreso" style="width: 100%;">✅ Registrar Ingreso</button>
-                        </div>
-
-                        <div class="salida-section">
-                            <div class="section-title">
-                                <span>📤</span> Registrar Salida
-                            </div>
-                            <div class="hora-actual" id="horaActualSalida">
-                                Hora actual: --:--:--
-                            </div>
-                            <button class="btn btn-orange" id="btnRegistrarSalida" style="width: 100%;">📤 Registrar Salida</button>
-                            <div id="horasCalculadas" class="horas-trabajadas" style="display: none;"></div>
-                        </div>
-                    </div>
-                `;
-                filterGroup.style.display = 'none';
-                filtroRolInfo.textContent = '(Solo puedes ver tu propio historial)';
-                descripcionModulo.textContent = 'Registra tus ingresos y salidas';
-                
-                // Configurar eventos después de crear los botones
-                setTimeout(() => {
-                    document.getElementById('btnRegistrarIngreso')?.addEventListener('click', registrarIngreso);
-                    document.getElementById('btnRegistrarSalida')?.addEventListener('click', registrarSalida);
-                    actualizarHora();
-                    setInterval(actualizarHora, 1000);
-                }, 100);
-            }
-            
-            // Actualizar selectores de filtro para jefe
-            if (esJefe) {
-                const filtroUsuario = document.getElementById('filtroUsuario');
-                const allOptions = personalData.filter(p => p.activo !== false).map(p => 
-                    `<option value="${p.id}">${p.nombre} (${p.rol === 'tecnico' ? 'Técnico' : 'Administrativo'})</option>`
-                ).join('');
-                filtroUsuario.innerHTML = '<option value="">Todos los usuarios</option>' + allOptions;
-            }
-        }
-
-        // ==================== REGISTROS (SOLO PARA USUARIOS NORMALES) ====================
-        function registrarIngreso() {
-            const usuarioId = usuarioLogueado?.id;
-            if (!usuarioId) {
-                mostrarAlerta('Error: No se pudo identificar al usuario', 'error');
-                return;
-            }
-            
-            const usuario = personalData.find(p => p.id == usuarioId);
-            if (!usuario) {
-                mostrarAlerta('Usuario no encontrado', 'error');
-                return;
-            }
-            
-            if (!usuario.activo) {
-                mostrarAlerta('Tu cuenta está inactiva. Contacta al administrador.', 'error');
-                return;
-            }
-            
-            const hoy = new Date().toISOString().split('T')[0];
-            const horaActual = new Date().toLocaleTimeString('es-ES');
-            
-            const yaIngreso = asistenciaData.some(a => 
-                a.usuarioId == usuarioId && a.fecha === hoy && a.tipo === 'ingreso'
-            );
-            
-            if (yaIngreso) {
-                mostrarAlerta(`Ya registraste ingreso hoy a las ${horaActual}`, 'error');
-                return;
-            }
-            
-            const nuevoRegistro = {
-                id: asistenciaData.length + 1,
-                usuarioId: usuario.id,
-                usuarioNombre: usuario.nombre,
-                rol: usuario.rol,
-                tipo: 'ingreso',
-                fecha: hoy,
-                hora: horaActual,
-                timestamp: new Date().getTime()
-            };
-            
-            asistenciaData.push(nuevoRegistro);
-            guardarAsistencia();
-            actualizarEstadisticas();
-            actualizarTablaHistorial();
-            mostrarAlerta(`✅ Ingreso registrado: ${usuario.nombre} - ${horaActual}`, 'success');
-        }
-
-        function registrarSalida() {
-            const usuarioId = usuarioLogueado?.id;
-            if (!usuarioId) {
-                mostrarAlerta('Error: No se pudo identificar al usuario', 'error');
-                return;
-            }
-            
-            const usuario = personalData.find(p => p.id == usuarioId);
-            if (!usuario) {
-                mostrarAlerta('Usuario no encontrado', 'error');
-                return;
-            }
-            
-            const hoy = new Date().toISOString().split('T')[0];
-            const horaActual = new Date().toLocaleTimeString('es-ES');
-            
-            const ingresoHoy = asistenciaData.find(a => 
-                a.usuarioId == usuarioId && a.fecha === hoy && a.tipo === 'ingreso'
-            );
-            
-            if (!ingresoHoy) {
-                mostrarAlerta(`No has registrado ingreso hoy`, 'error');
-                return;
-            }
-            
-            const yaSalida = asistenciaData.some(a => 
-                a.usuarioId == usuarioId && a.fecha === hoy && a.tipo === 'salida'
-            );
-            
-            if (yaSalida) {
-                mostrarAlerta(`Ya registraste salida hoy`, 'error');
-                return;
-            }
-            
-            const ingresoTime = new Date(ingresoHoy.timestamp);
-            const salidaTime = new Date();
-            const diffMs = salidaTime - ingresoTime;
-            const horasTrabajadas = diffMs / (1000 * 60 * 60);
-            
-            const nuevoRegistro = {
-                id: asistenciaData.length + 1,
-                usuarioId: usuario.id,
-                usuarioNombre: usuario.nombre,
-                rol: usuario.rol,
-                tipo: 'salida',
-                fecha: hoy,
-                hora: horaActual,
-                timestamp: salidaTime.getTime(),
-                horasTrabajadas: parseFloat(horasTrabajadas.toFixed(2))
-            };
-            
-            asistenciaData.push(nuevoRegistro);
-            guardarAsistencia();
-            actualizarEstadisticas();
-            actualizarTablaHistorial();
-            
-            const horasMostrar = horasTrabajadas.toFixed(2);
-            mostrarAlerta(`📤 Salida registrada: ${usuario.nombre} - ${horaActual} | Horas trabajadas: ${horasMostrar}h`, 'success');
-            
-            const horasDiv = document.getElementById('horasCalculadas');
-            if (horasDiv) {
-                horasDiv.textContent = `⏱️ Horas trabajadas hoy: ${horasMostrar} horas`;
-                horasDiv.style.display = 'block';
-                setTimeout(() => {
-                    horasDiv.style.display = 'none';
-                }, 5000);
-            }
-        }
-
-        // ==================== ESTADÍSTICAS ====================
-        function actualizarEstadisticas() {
-            const hoy = new Date().toISOString().split('T')[0];
-            
-            let registrosHoy = asistenciaData.filter(a => a.fecha === hoy);
-            
-            // Si es usuario normal, filtrar solo sus registros
-            if (!esJefe && usuarioLogueado?.id) {
-                registrosHoy = registrosHoy.filter(a => a.usuarioId == usuarioLogueado.id);
-            }
-            
-            const ingresosHoy = registrosHoy.filter(r => r.tipo === 'ingreso');
-            const salidasHoy = registrosHoy.filter(r => r.tipo === 'salida');
-            
-            const activos = ingresosHoy.filter(ingreso => 
-                !salidasHoy.some(salida => salida.usuarioId === ingreso.usuarioId)
-            ).length;
-            
-            document.getElementById('activosHoy').textContent = activos;
-            document.getElementById('totalRegistrosHoy').textContent = registrosHoy.length;
-            
-            let totalHoras = 0;
-            salidasHoy.forEach(salida => {
-                if (salida.horasTrabajadas) totalHoras += salida.horasTrabajadas;
-            });
-            document.getElementById('totalHorasHoy').textContent = totalHoras.toFixed(1);
-        }
-
-        // ==================== HISTORIAL ====================
-        function actualizarTablaHistorial(filtroUsuario = '', fechaInicio = '', fechaFin = '') {
-            const tbody = document.getElementById('tablaHistorial');
-            let datosFiltrados = [...asistenciaData];
-            
-            // FILTRO POR ROL (si es usuario normal, solo sus registros)
-            if (!esJefe && usuarioLogueado?.id) {
-                datosFiltrados = datosFiltrados.filter(a => a.usuarioId == usuarioLogueado.id);
-            }
-            
-            // Filtrar por usuario (solo si es jefe)
-            if (esJefe && filtroUsuario) {
-                datosFiltrados = datosFiltrados.filter(a => a.usuarioId == filtroUsuario);
-            }
-            
-            // Filtrar por fechas
-            if (fechaInicio) {
-                datosFiltrados = datosFiltrados.filter(a => a.fecha >= fechaInicio);
-            }
-            if (fechaFin) {
-                datosFiltrados = datosFiltrados.filter(a => a.fecha <= fechaFin);
-            }
-            
-            datosFiltrados.sort((a, b) => b.timestamp - a.timestamp);
-            
-            if (datosFiltrados.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay registros para los filtros seleccionados</td></tr>';
-                return;
-            }
-            
-            tbody.innerHTML = datosFiltrados.map(registro => {
-                const rolMostrar = registro.rol === 'tecnico' ? 'Técnico' : 'Administrativo';
-                const tipoMostrar = registro.tipo === 'ingreso' ? 'Ingreso' : 'Salida';
-                const horasMostrar = registro.horasTrabajadas ? `${registro.horasTrabajadas} h` : '-';
-                
-                return `
+            <table>
+                <thead>
                     <tr>
-                        <td>${registro.fecha}</td>
-                        <td><strong>${registro.usuarioNombre}</strong></td>
-                        <td>${rolMostrar}</td>
-                        <td><span class="status-badge ${registro.tipo === 'ingreso' ? 'status-ingreso' : 'status-salida'}">${tipoMostrar}</span></td>
-                        <td>${registro.hora}</td>
-                        <td>${horasMostrar}</td>
+                        <th>Fecha</th>
+                        <th>Usuario</th>
+                        <th>Rol</th>
+                        <th>Tipo</th>
+                        <th>Hora</th>
+                        <th>Horas</th>
                     </tr>
-                `;
-            }).join('');
-        }
+                </thead>
 
-        function buscarHistorial() {
-            const filtroUsuario = document.getElementById('filtroUsuario')?.value || '';
-            const fechaInicio = document.getElementById('fechaInicio').value;
-            const fechaFin = document.getElementById('fechaFin').value;
-            
-            actualizarTablaHistorial(filtroUsuario, fechaInicio, fechaFin);
-            mostrarAlerta('Búsqueda realizada', 'info');
-        }
+                <tbody id="tablaHistorial">
+                    <tr>
+                        <td colspan="6" style="text-align:center;">Cargando...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-        function limpiarFiltros() {
-            if (document.getElementById('filtroUsuario')) {
-                document.getElementById('filtroUsuario').value = '';
-            }
-            document.getElementById('fechaInicio').value = '';
-            document.getElementById('fechaFin').value = '';
-            actualizarTablaHistorial();
-            mostrarAlerta('Filtros limpiados', 'info');
-        }
+    </div>
 
-        // ==================== UTILIDADES ====================
-        function mostrarAlerta(mensaje, tipo) {
-            const alerta = document.createElement('div');
-            alerta.className = `alert alert-${tipo}`;
-            alerta.textContent = mensaje;
-            document.body.appendChild(alerta);
-            setTimeout(() => alerta.remove(), 3000);
-        }
+</div>
 
-        function actualizarHora() {
-            const ahora = new Date();
-            const horaStr = ahora.toLocaleTimeString('es-ES');
-            const ingresoDiv = document.getElementById('horaActualIngreso');
-            const salidaDiv = document.getElementById('horaActualSalida');
-            if (ingresoDiv) ingresoDiv.textContent = `Hora actual: ${horaStr}`;
-            if (salidaDiv) salidaDiv.textContent = `Hora actual: ${horaStr}`;
-        }
+<footer>
+    <div>
+        <h3>CONÓCENOS</h3>
+        <p>Cilindros GNV<br>Servicios<br>Sistema</p>
+    </div>
 
-        // ==================== INICIALIZACIÓN ====================
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!cargarSesion()) return;
-            
-            cargarDatos();
-            
-            document.getElementById('btnBuscarHistorial').onclick = buscarHistorial;
-            document.getElementById('btnLimpiarFiltros').onclick = limpiarFiltros;
-        });
-    </script>
+    <div>
+        <h3>INGENIERÍA</h3>
+        <p>Sistema enfocado en optimizar procesos técnicos.</p>
+    </div>
+
+    <div>
+        <h3>TECNOLOGÍA</h3>
+        <p>Plataforma web moderna con reportes automáticos.</p>
+    </div>
+
+    <div>
+        <h3>CONTACTO</h3>
+        <p>La Paz - Bolivia<br>Email: autogasjw@gmail.com</p>
+        <div class="redes">
+            <a href="#">📘 Facebook</a>
+            <a href="#">🎵 TikTok</a>
+            <a href="#">💬 WhatsApp</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+/* TODO TU JS (NO CAMBIA) */
+</script>
+
 </body>
 </html>

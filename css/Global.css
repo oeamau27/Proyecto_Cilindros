@@ -1,0 +1,316 @@
+/* =============================================
+   GLOBAL.CSS - AUTOGAS JW
+   Estilos compartidos por TODAS las páginas
+   Tema: dark + naranja (#f97316) + verde (#16a34a)
+   ============================================= */
+
+/* ── RESET ── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* ── BODY ── */
+body {
+    background: #020617;
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+/* ── HEADER / NAVBAR ── */
+header {
+    position: sticky;
+    top: 0;
+    background: rgba(2, 6, 23, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    border-bottom: 1px solid rgba(22, 163, 74, 0.3);
+    z-index: 1000;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* ── LOGO ── */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.logo img {
+    height: 60px;
+}
+
+.logo span {
+    font-weight: bold;
+    color: #f97316;
+    font-size: 1.2rem;
+}
+
+/* ── NAVEGACIÓN ── */
+nav {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 10px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #16a34a;
+}
+
+nav a.active {
+    color: #16a34a;
+    border-bottom: 2px solid #16a34a;
+    padding-bottom: 5px;
+}
+
+/* ── INFO DE USUARIO ── */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #1e3a8a;
+    padding: 8px 15px;
+    border-radius: 20px;
+}
+
+.user-info span {
+    color: #f97316;
+}
+
+/* ── BOTONES ── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 24px;
+    border: none;
+    color: #ffffff;
+    font-weight: bold;
+    font-family: 'Segoe UI', sans-serif;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary,
+.btn-green {
+    background: #16a34a;
+}
+
+.btn-primary:hover,
+.btn-green:hover {
+    background: #22c55e;
+}
+
+.btn-orange {
+    background: #f97316;
+}
+
+.btn-orange:hover {
+    background: #fb923c;
+}
+
+.btn-blue {
+    background: #3b82f6;
+}
+
+.btn-blue:hover {
+    background: #60a5fa;
+}
+
+.btn-secondary {
+    background: #334155;
+    color: #94a3b8;
+}
+
+.btn-secondary:hover {
+    background: #475569;
+    color: #ffffff;
+}
+
+.btn-danger {
+    background: #dc2626;
+}
+
+.btn-danger:hover {
+    background: #ef4444;
+}
+
+.btn-cancel {
+    background: #1e293b;
+    color: #94a3b8;
+    border: 1px solid #334155;
+}
+
+.btn-cancel:hover {
+    background: #334155;
+}
+
+.btn-sm {
+    padding: 5px 12px;
+    font-size: 0.8rem;
+}
+
+.logout-btn {
+    background: #dc2626;
+    padding: 5px 12px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: #ef4444;
+}
+
+/* ── FOOTER ── */
+footer {
+    background: black;
+    padding: 40px 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    border-top: 2px solid #16a34a;
+}
+
+footer h3 {
+    color: #f97316;
+    margin-bottom: 15px;
+}
+
+footer p {
+    color: #94a3b8;
+    line-height: 1.6;
+}
+
+/* ── REDES SOCIALES ── */
+.redes {
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+}
+
+.redes a {
+    color: white;
+    text-decoration: none;
+    background: #1e3a8a;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.redes a img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.redes a:hover {
+    background: #16a34a;
+}
+
+.redes a img:hover {
+    transform: scale(1.2);
+}
+
+/* ── ALERTAS / NOTIFICACIONES ── */
+.alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: 5px;
+    z-index: 3000;
+    animation: slideIn 0.3s ease;
+}
+
+.alert-success { background: rgba(34, 197, 94, 0.9); color: white; }
+.alert-error   { background: rgba(220, 38, 38, 0.9);  color: white; }
+.alert-info    { background: rgba(59, 130, 246, 0.9);  color: white; }
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to   { transform: translateX(0);   opacity: 1; }
+}
+
+/* ── HELP FAB ── */
+.help-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #1e3a8a;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 700;
+    border: 1px solid #2563eb;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.help-fab:hover { background: #2563eb; }
+
+/* ── LINK DE REGRESO ── */
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #f97316;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.back-link:hover { color: #16a34a; }
+
+/* ── BTN GOOGLE MAPS ── */
+.btn-maps {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #f97316;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-maps:hover { background: #fb923c; }
+
+/* ── RESPONSIVE GLOBAL ── */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px 20px;
+    }
+
+    nav { justify-content: center; }
+
+    footer { padding: 30px 20px; }
+}
