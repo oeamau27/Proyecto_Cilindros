@@ -34,7 +34,7 @@
         Plataforma web para optimizar cálculos técnicos,
         control de información y generación automática de reportes.
     </p>
-    <button class="btn">Ver Sistema</button>
+    <button class="btn btn-orange" onclick="irProyecto()">Ver Sistema</button>
 </section>
 
 <!-- SOBRE EL PROYECTO -->
@@ -44,7 +44,7 @@
 
         <!-- IMAGEN -->
         <div class="imagen">
-            <img src="https://scontent.flpb2-2.fna.fbcdn.net/v/t39.30808-6/629992813_1383711463771699_6642854305995073599_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=13d280&_nc_ohc=Ch5qEd4if_cQ7kNvwGLvM0H&_nc_oc=AdoTCCATSJJorc3pwJNoqLen9pcNpzSBEXjUD5QAyLN6Wqocw1HOel24CWKIpSkEf5nFaoNC5iwp7IaX3_oqQy1-&_nc_zt=23&_nc_ht=scontent.flpb2-2.fna&_nc_gid=8Snl5M5ndxxym7GB8a5hxQ&_nc_ss=7a32e&oh=00_Afw1A48QOHIVQBn_eag8oQI7hYpMO8V2RJ3LYU5m3oZZpQ&oe=69C7E4AF">
+            <img src="https://scontent.flpb3-2.fna.fbcdn.net/v/t39.30808-6/629992813_1383711463771699_6642854305995073599_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=13d280&_nc_ohc=RP9J7dAB8RYQ7kNvwH9cz5P&_nc_oc=AdqszwZQJOwuaMIUo0YQG8E52ChS2qgTcZbPvPRz6M9paeJGQUOEHMUngsJniTOXjHM&_nc_zt=23&_nc_ht=scontent.flpb3-2.fna&_nc_gid=5dfoTHfdVxBlUAhrhKLPdw&_nc_ss=7a3a8&oh=00_Af2xyssbN9oRgjiK-2ykAF5Df-B96FiR9a6DZ6tug9pZRQ&oe=69DD6D2F">
         </div>
 
         <!-- TEXTO -->
@@ -149,8 +149,7 @@
 </div>
 
 
-<!-- SCRIPTS -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 function irInicio(){
     window.scrollTo({
         top: 0,
@@ -166,27 +165,46 @@ function cerrarLogin(){
     document.getElementById("panelLogin").classList.remove("activo");
 }
 
+function irProyecto(){
+    document.getElementById("proyecto").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
 function login(){
+    let rol = document.querySelector("select").value;
     let user = document.getElementById("usuario").value;
     let pass = document.getElementById("password").value;
 
-    if(user === "admin" && pass === "1234"){
-        window.location.href = "RegInfoCilindros.html";
-    } else {
-        alert("Usuario o contraseña incorrectos");
+    // VALIDAR QUE SE SELECCIONE ROL
+    if(rol === "Seleccione tipo"){
+        alert("Seleccione un tipo de usuario");
+        return;
+    }
+
+    // ===== ROL PERSONAL (ADMIN / TECNICO) =====
+    if(rol === "Personal"){
+        if(user === "admin" && pass === "1234"){
+            // ADMIN
+            window.location.href = "RegInfoCilindros.html";
+        }
+        else if(user === "tecnico" && pass === "1234"){
+            // TECNICO
+            window.location.href = "PanelTecnico.html";
+        }
+        else{
+            alert("Credenciales incorrectas para Personal");
+        }
+    }
+
+    // ===== ROL USUARIO (CLIENTE) =====
+    else if(rol === "Usuario"){
+        if(user === "cliente" && pass === "1234"){
+            window.location.href = "PanelUsuario.html";
+        }
+        else{
+            alert("Credenciales incorrectas para Usuario");
+        }
     }
 }
 </script>
-
-<script>
-function irInicio(){
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-}
-</script>
-
-<script>
-function abrirLogin(){
-    documen
